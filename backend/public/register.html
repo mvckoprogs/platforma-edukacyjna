@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>Rejestracja</h1>
-  <form action="/register" method="POST">
+  <form id="registerForm">
     <label for="username">Nazwa użytkownika:</label>
     <input type="text" id="username" name="username" required><br>
     
@@ -20,7 +20,32 @@
     
     <button type="submit">Zarejestruj się</button>
   </form>
-  <p>Masz już konto? <a href="login.html">Zaloguj się</a></p>
-  <script src="script.js"></script>
+  
+  <p>Masz już konto? <a href="/login">Zaloguj się</a></p>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const response = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      const result = await response.text();
+
+      if (response.ok) {
+        alert(result);
+        window.location.href = "/login"; // Przekierowanie do logowania po rejestracji
+      } else {
+        alert("Błąd: " + result);
+      }
+    });
+  </script>
 </body>
 </html>
