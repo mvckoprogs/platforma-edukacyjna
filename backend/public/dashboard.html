@@ -1,39 +1,35 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <header>
-    <h1>Witaj na Dashboardzie!</h1>
-    <p id="userGreeting"></p>
-    <nav>
-      <a href="index.html">Strona główna</a> |
-      <a href="#" id="logout">Wyloguj</a>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Moja Platforma</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Strona główna</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Profil</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="/logout">Wyloguj</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
-  </header>
-  <main>
-    <p>To jest Twoja strona główna po zalogowaniu.</p>
-  </main>
 
-  <script>
-    // Pobranie nazwy użytkownika z localStorage (tymczasowe rozwiązanie)
-    const username = localStorage.getItem("username");
+    <div class="container mt-5">
+        <h1>Witaj w panelu użytkownika!</h1>
+        <p>Twoja platforma jest gotowa do działania.</p>
+    </div>
 
-    if (username) {
-      document.getElementById("userGreeting").innerText = `Cześć, ${username}!`;
-    } else {
-      window.location.href = "/login"; // Jeśli nie ma użytkownika, przekierowanie do logowania
-    }
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    // Obsługa wylogowania
-    document.getElementById("logout").addEventListener("click", function() {
-      localStorage.removeItem("username");
-      window.location.href = "/login";
-    });
-  </script>
 </body>
 </html>
