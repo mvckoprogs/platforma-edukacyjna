@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const usersFile = path.join(__dirname, 'users.json');
 
 app.use(bodyParser.json());
@@ -27,7 +27,7 @@ app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
-// Obsługa rejestracji użytkownika (z szyfrowaniem hasła)
+// Obsługa rejestracji użytkownika
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -60,7 +60,15 @@ app.post('/register', async (req, res) => {
         console.error("Błąd zapisu pliku:", err);
         return res.status(500).send('Błąd zapisu danych.');
       }
-      res.send(`Użytkownik ${username} został zarejestrowany!`);
+      console.log("Zapisano użytkownika do pliku!");
+
+      // Po rejestracji przekierowanie na stronę logowania
+      res.send(`
+        <script>
+          alert("Rejestracja zakończona sukcesem! Możesz się teraz zalogować.");
+          window.location.href = "/login";
+        </script>
+      `);
     });
   });
 });
@@ -84,7 +92,6 @@ app.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
-      // Przekazujemy użytkownika do dashboardu
       res.send(`
         <script>
           localStorage.setItem("username", "${user.username}");
@@ -94,6 +101,16 @@ app.post('/login', async (req, res) => {
     } else {
       res.status(400).send('Nieprawidłowy email lub hasło.');
     }
+  });
+});
+
+// Tymczasowa trasa do sprawdzania zapisanych użytkowników (po testach usunąć!)
+app.get('/users', (req, res) => {
+  fs.readFile(usersFile, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Błąd odczytu pliku.');
+    }
+    res.send(data);
   });
 });
 
