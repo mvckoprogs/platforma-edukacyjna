@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Witaj na Dashboardzie!</h1>
+    <p id="userGreeting"></p>
+    <nav>
+      <a href="index.html">Strona główna</a> |
+      <a href="#" id="logout">Wyloguj</a>
+    </nav>
+  </header>
+  <main>
+    <p>To jest Twoja strona główna po zalogowaniu.</p>
+  </main>
+
+  <script>
+    // Pobranie nazwy użytkownika z localStorage (tymczasowe rozwiązanie)
+    const username = localStorage.getItem("username");
+
+    if (username) {
+      document.getElementById("userGreeting").innerText = `Cześć, ${username}!`;
+    } else {
+      window.location.href = "/login"; // Jeśli nie ma użytkownika, przekierowanie do logowania
+    }
+
+    // Obsługa wylogowania
+    document.getElementById("logout").addEventListener("click", function() {
+      localStorage.removeItem("username");
+      window.location.href = "/login";
+    });
+  </script>
+</body>
+</html>
